@@ -43,28 +43,17 @@ footer {
     border-radius: 8px;
 }
 
-.calculaor-screen {
-    flex: 2;
-    display: flex;
-    flex-direction: column;
-}
-
-.screen-last, .screen-current {
+.calculator-screen {
     height: 50px;
     text-align: right;
     padding: 5px;
+    font-size: 60px;
+    align-items: center;
+    display: flex;
+    justify-content: right;
+    flex: 1;
 }
-
-.screen-last {
-    height: 40px;
-    font-size: x-large;
-}
-
-.screen-current {
-    height: 50px;
-    font-size: xx-large;
-}
-
+    
 .calculator-buttons {
     display: grid;
     flex: 3;
