@@ -1,0 +1,89 @@
+html, body {
+    height: 100%;
+    width: 100%;
+    padding: 0;
+    margin: 0;
+}
+
+body {
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+}
+
+header, footer {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+header {
+    height: 75px;
+}
+
+main {
+    flex: 1;
+    flex-direction: column;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+footer {
+    height: 25px;
+}
+
+.calculator-container {
+    display: flex;
+    flex-direction: column;
+    background-color: rgb(72, 69, 69);
+    height: 400px;
+    width: 400px;
+    color: white;
+    border-radius: 8px;
+}
+
+.calculaor-screen {
+    flex: 2;
+    display: flex;
+    flex-direction: column;
+}
+
+.screen-last, .screen-current {
+    height: 50px;
+    text-align: right;
+    padding: 5px;
+}
+
+.screen-last {
+    height: 40px;
+    font-size: x-large;
+}
+
+.screen-current {
+    height: 50px;
+    font-size: xx-large;
+}
+
+.calculator-buttons {
+    display: grid;
+    flex: 3;
+    grid-template-columns: repeat(4, 1fr);
+}
+
+.calculator-buttons button{
+    border-radius: 0px;
+    font-size: large;
+}
+
+#lastRowFirstColumn {
+    border-bottom-left-radius: 8px;
+}
+
+#lastRowLastColumn {
+    border-bottom-right-radius: 8px;
+}
+
+.operator {
+    background-color: orange;
+}
