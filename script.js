@@ -1,4 +1,4 @@
-let screenValue = "";
+let screenValue = 0;
 
 const calculatorButtonContainer = document.querySelector(".calculator-buttons");
 const calculatorButtons = calculatorButtonContainer.querySelectorAll("button");
@@ -45,9 +45,10 @@ const operate = (operator, a, b) => {
 }
 
 const numericButtonClick = (value)=> {
-    screenValue = screenValue + value;
+    screenValue = screenValue*10 + value;
     calculatorScreenElement.textContent = screenValue;
 }
+
 
 const buttonClick = (event)=> {
     buttonTextContent = event.target.textContent;
