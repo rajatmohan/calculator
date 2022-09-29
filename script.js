@@ -1,4 +1,8 @@
 let screenValue = 0;
+let prevScreenValue = 0;
+let lastOperator = null;
+
+let state = "FIRST_OPERAND_REQUESTED";
 
 const calculatorButtonContainer = document.querySelector(".calculator-buttons");
 const calculatorButtons = calculatorButtonContainer.querySelectorAll("button");
@@ -44,23 +48,62 @@ const operate = (operator, a, b) => {
     }
 }
 
+const performOperationWithUIUpdate = ()=> {
+    let ans = operate(lastOperator, prevScreenValue, screenValue);
+    screenValue = ans;
+    calculatorScreenElement.textContent = screenValue;
+    lastOperator = null;
+}
+
 const numericButtonClick = (value)=> {
-    screenValue = screenValue*10 + value;
+    if(state === "FIRST_OPERAND_REQUESTED") {
+        screenValue = value;
+        state = "FIRST_OPERAND_STARTED";
+    }
+    else if(state === "FIRST_OPERAND_STARTED") {
+        screenValue = screenValue*10 + value;
+    }
+    else if(state === "SECOND_OPERAND_REQUESTED") {
+        prevScreenValue = screenValue;
+        screenValue = value;
+        state = "SECOND_OPERAND_STARTED";
+    }
+    else if(state === "SECOND_OPERAND_STARTED") {
+        screenValue = screenValue*10 + value;
+    }
     calculatorScreenElement.textContent = screenValue;
 }
 
+const operatorButtonClick = (operator) => {
+    if(state === "FIRST_OPERAND_REQUESTED" || state === "FIRST_OPERAND_STARTED") {
+        prevScreenValue = screenValue;
+        state = "SECOND_OPERAND_REQUESTED";
+    }
+    else if(state === "SECOND_OPERAND_STARTED") {
+        performOperationWithUIUpdate();
+        state = "SECOND_OPERAND_REQUESTED";
+    }
+    lastOperator = operator;
+}
+
+const equalButtonClick = ()=> {
+    if(lastOperator != null) {
+        performOperationWithUIUpdate();
+        state = "FIRST_OPERAND_REQUESTED";
+    }
+}
 
 const buttonClick = (event)=> {
     buttonTextContent = event.target.textContent;
-    console.log(buttonTextContent)
+
     if(['1', '2', '3', '4', '5', '6', '7', '8', '9', '0'].includes(buttonTextContent)) {
         numericButtonClick(Number(buttonTextContent));
     }
     else if(['/', '+', '-', 'x', '%'].includes(buttonTextContent)) {
-        console.log("op");
+        operatorButtonClick(buttonTextContent)
     }
     else if(buttonTextContent === '=') {
-        console.log("eq");
+        equalButtonClick();
     }
     else if(buttonTextContent === 'C') {
         console.log("c");
