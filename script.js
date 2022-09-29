@@ -28,6 +28,10 @@ const divide = (a, b) => {
     return a/b;
 };
 
+const remainder = (a, b) => {
+    return a%b;
+}
+
 const operate = (operator, a, b) => {
     a = Number(a)
     b = Number(b)
@@ -43,6 +47,8 @@ const operate = (operator, a, b) => {
             return multiply(a, b);
         case '/':
             return divide(a, b);
+        case '%':
+            return remainder(a, b);
         default:
             return null;
     }
