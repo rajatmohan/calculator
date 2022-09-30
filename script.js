@@ -141,38 +141,62 @@ const toggleSign = ()=> {
     updateScreenValue(screenValue);
 }
 
-const buttonClick = (event)=> {
-    buttonTextContent = event.target.textContent;
-
-    if(['1', '2', '3', '4', '5', '6', '7', '8', '9', '0'].includes(buttonTextContent)) {
-        numericButtonClick(Number(buttonTextContent));
+const handleButtonAndKeyPress = (symbol)=> {
+    if(['1', '2', '3', '4', '5', '6', '7', '8', '9', '0'].includes(symbol)) {
+        numericButtonClick(Number(symbol));
     }
-    else if(['/', '+', '-', 'x', '%'].includes(buttonTextContent)) {
-        operatorButtonClick(buttonTextContent)
+    else if(['/', '+', '-', 'x', '%'].includes(symbol)) {
+        operatorButtonClick(symbol)
     }
-    else if(buttonTextContent === '=') {
+    else if(symbol === '=') {
         equalButtonClick();
     }
-    else if(buttonTextContent === 'C') {
+    else if(symbol === 'C') {
         clearButtonClick();
     }
-    else if(buttonTextContent === 'AC') {
+    else if(symbol === 'AC') {
         allClearButtonClick();
     }
-    else if(buttonTextContent === '+/-') {
+    else if(symbol === '+/-') {
         toggleSign();
     }
-    else if(buttonTextContent === '.') {
+    else if(symbol === '.') {
         dotButtonClick();
     }
     else {
         console.log("err");
     }
 }
+const buttonClick = (event)=> {
+    buttonTextContent = event.target.textContent;
+    handleButtonAndKeyPress(buttonTextContent);
+}
 
 calculatorButtons.forEach(button => {
     button.addEventListener("click", buttonClick);
 });
+
+document.addEventListener('keypress', (event) => {
+    let keySymbol = event.key;
+    // key a is used as All Clear operation.
+    if(keySymbol === 'a' || keySymbol === 'A') {
+        keySymbol = 'AC';
+    }
+    else if(keySymbol === '*' || keySymbol === 'x' || keySymbol === 'X') {
+        keySymbol = 'x';
+    }
+    // key c is used for clear operation.
+    else if(keySymbol === 'c' || keySymbol === 'C') {
+        keySymbol = 'C';
+    }
+    // key t is usef to toggle current screen value.
+    else if(keySymbol === "t" || keySymbol == "T") {
+        keySymbol = '+/-';
+    }
+    handleButtonAndKeyPress(keySymbol);
+}, false);
+
+
 
 
 
