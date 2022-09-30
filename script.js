@@ -1,16 +1,12 @@
-let screenValue = 0;
-let prevScreenValue = 0;
+let screenValue = "";
+let prevScreenValue = "";
 let lastOperator = null;
-
 let state = "FIRST_OPERAND_REQUESTED";
 
 const calculatorButtonContainer = document.querySelector(".calculator-buttons");
 const calculatorButtons = calculatorButtonContainer.querySelectorAll("button");
 
 const calculatorScreenElement = document.querySelector(".calculator-screen")
-
-console.log(calculatorScreenElement)
-
 
 const add = (a, b) => {
     return a+b;
@@ -55,13 +51,13 @@ const operate = (operator, a, b) => {
 }
 
 const performOperationWithUIUpdate = ()=> {
-    let ans = operate(lastOperator, prevScreenValue, screenValue);
+    let ans = operate(lastOperator, Number(prevScreenValue), Number(screenValue));
     if(!isFinite(ans)) {
         allClearButtonClick();
         calculatorScreenElement.textContent = "Not a number";
     }
     else {
-        screenValue = ans;
+        screenValue = ans.toString();
         lastOperator = null;
         calculatorScreenElement.textContent = screenValue;
     }
@@ -69,18 +65,18 @@ const performOperationWithUIUpdate = ()=> {
 
 const numericButtonClick = (value)=> {
     if(state === "FIRST_OPERAND_REQUESTED") {
-        screenValue = value;
+        screenValue = value.toString();
         state = "FIRST_OPERAND_STARTED";
     }
     else if(state === "FIRST_OPERAND_STARTED") {
-        screenValue = screenValue*10 + value;
+        screenValue = screenValue + value.toString();
     }
     else if(state === "SECOND_OPERAND_REQUESTED") {
-        screenValue = value;
+        screenValue = value.toString();
         state = "SECOND_OPERAND_STARTED";
     }
     else if(state === "SECOND_OPERAND_STARTED") {
-        screenValue = screenValue*10 + value;
+        screenValue = ''+screenValue + value.toString();
     }
     calculatorScreenElement.textContent = screenValue;
 }
@@ -106,7 +102,7 @@ const equalButtonClick = ()=> {
 }
 
 const clearButtonClick = ()=> {
-    screenValue = 0;
+    screenValue = "";
     calculatorScreenElement.textContent = screenValue;
     if(state === "FIRST_OPERAND_STARTED"){
         state = "FIRST_OPERAND_REQUESTED";
@@ -117,11 +113,19 @@ const clearButtonClick = ()=> {
 }
 
 const allClearButtonClick = ()=> {
-    screenValue = 0;
-    prevScreenValue = 0;
+    screenValue = "";
+    prevScreenValue = "";
     lastOperator = null;
     calculatorScreenElement.textContent = screenValue;
     state = "FIRST_OPERAND_REQUESTED";
+}
+
+const dotButtonClick = ()=> {
+    //Already have decimal point;
+    if(!screenValue.includes('.')) {
+        screenValue = screenValue+".";
+        calculatorScreenElement.textContent = screenValue;
+    }
 }
 
 const buttonClick = (event)=> {
@@ -146,7 +150,7 @@ const buttonClick = (event)=> {
         console.log("+/-");
     }
     else if(buttonTextContent === '.') {
-        console.log(".");
+        dotButtonClick();
     }
     else {
         console.log("err");
