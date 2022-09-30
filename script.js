@@ -128,7 +128,7 @@ const allClearButtonClick = ()=> {
 }
 
 const dotButtonClick = ()=> {
-    //Already have decimal point;
+    //Check whether current screen have decimal point or not.
     if(!screenValue.includes('.')) {
         screenValue = screenValue+".";
         updateScreenValue(screenValue);
@@ -136,6 +136,7 @@ const dotButtonClick = ()=> {
 }
 
 const toggleSign = ()=> {
+    // Toggle sign of current screen value
     let operand = Number(screenValue);
     screenValue = (-operand).toString();
     updateScreenValue(screenValue);
@@ -167,6 +168,7 @@ const handleButtonAndKeyPress = (symbol)=> {
         console.log("err");
     }
 }
+
 const buttonClick = (event)=> {
     buttonTextContent = event.target.textContent;
     handleButtonAndKeyPress(buttonTextContent);
