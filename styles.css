@@ -18,6 +18,8 @@ header, footer {
 }
 
 header {
+    font-size: 30px;
+    padding: 20px;
     height: 75px;
 }
 
