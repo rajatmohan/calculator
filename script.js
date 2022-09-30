@@ -128,6 +128,13 @@ const dotButtonClick = ()=> {
     }
 }
 
+const toggleSign = ()=> {
+    let operand = Number(screenValue);
+    screenValue = (-operand).toString();
+    calculatorScreenElement.textContent = screenValue;
+}
+
+
 const buttonClick = (event)=> {
     buttonTextContent = event.target.textContent;
 
@@ -147,7 +154,7 @@ const buttonClick = (event)=> {
         allClearButtonClick();
     }
     else if(buttonTextContent === '+/-') {
-        console.log("+/-");
+        toggleSign();
     }
     else if(buttonTextContent === '.') {
         dotButtonClick();
