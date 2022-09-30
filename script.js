@@ -56,9 +56,15 @@ const operate = (operator, a, b) => {
 
 const performOperationWithUIUpdate = ()=> {
     let ans = operate(lastOperator, prevScreenValue, screenValue);
-    screenValue = ans;
-    calculatorScreenElement.textContent = screenValue;
-    lastOperator = null;
+    if(!isFinite(ans)) {
+        allClearButtonClick();
+        calculatorScreenElement.textContent = "Not a number";
+    }
+    else {
+        screenValue = ans;
+        lastOperator = null;
+        calculatorScreenElement.textContent = screenValue;
+    }
 }
 
 const numericButtonClick = (value)=> {
@@ -70,7 +76,6 @@ const numericButtonClick = (value)=> {
         screenValue = screenValue*10 + value;
     }
     else if(state === "SECOND_OPERAND_REQUESTED") {
-        prevScreenValue = screenValue;
         screenValue = value;
         state = "SECOND_OPERAND_STARTED";
     }
@@ -87,6 +92,7 @@ const operatorButtonClick = (operator) => {
     }
     else if(state === "SECOND_OPERAND_STARTED") {
         performOperationWithUIUpdate();
+        prevScreenValue = screenValue;
         state = "SECOND_OPERAND_REQUESTED";
     }
     lastOperator = operator;
@@ -96,6 +102,17 @@ const equalButtonClick = ()=> {
     if(lastOperator != null) {
         performOperationWithUIUpdate();
         state = "FIRST_OPERAND_REQUESTED";
+    }
+}
+
+const clearButtonClick = ()=> {
+    screenValue = 0;
+    calculatorScreenElement.textContent = screenValue;
+    if(state === "FIRST_OPERAND_STARTED"){
+        state = "FIRST_OPERAND_REQUESTED";
+    }
+    else if(state === "SECOND_OPERAND_STARTED") {
+        state = "SECOND_OPERAND_REQUESTED";
     }
 }
 
@@ -120,7 +137,7 @@ const buttonClick = (event)=> {
         equalButtonClick();
     }
     else if(buttonTextContent === 'C') {
-        console.log("c");
+        clearButtonClick();
     }
     else if(buttonTextContent === 'AC') {
         allClearButtonClick();
