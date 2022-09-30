@@ -50,16 +50,23 @@ const operate = (operator, a, b) => {
     }
 }
 
+const updateScreenValue = (value)=> {
+    if(value.length > 13) {
+        value = Number(screenValue).toExponential(6);
+    }
+    calculatorScreenElement.textContent = value;
+}
+
 const performOperationWithUIUpdate = ()=> {
     let ans = operate(lastOperator, Number(prevScreenValue), Number(screenValue));
     if(!isFinite(ans)) {
         allClearButtonClick();
-        calculatorScreenElement.textContent = "Not a number";
+        updateScreenValue("Not a number");
     }
     else {
         screenValue = ans.toString();
         lastOperator = null;
-        calculatorScreenElement.textContent = screenValue;
+        updateScreenValue(screenValue);
     }
 }
 
@@ -78,7 +85,7 @@ const numericButtonClick = (value)=> {
     else if(state === "SECOND_OPERAND_STARTED") {
         screenValue = ''+screenValue + value.toString();
     }
-    calculatorScreenElement.textContent = screenValue;
+    updateScreenValue(screenValue);
 }
 
 const operatorButtonClick = (operator) => {
@@ -103,7 +110,7 @@ const equalButtonClick = ()=> {
 
 const clearButtonClick = ()=> {
     screenValue = "";
-    calculatorScreenElement.textContent = screenValue;
+    updateScreenValue(screenValue);
     if(state === "FIRST_OPERAND_STARTED"){
         state = "FIRST_OPERAND_REQUESTED";
     }
@@ -116,7 +123,7 @@ const allClearButtonClick = ()=> {
     screenValue = "";
     prevScreenValue = "";
     lastOperator = null;
-    calculatorScreenElement.textContent = screenValue;
+    updateScreenValue(screenValue);
     state = "FIRST_OPERAND_REQUESTED";
 }
 
@@ -124,16 +131,15 @@ const dotButtonClick = ()=> {
     //Already have decimal point;
     if(!screenValue.includes('.')) {
         screenValue = screenValue+".";
-        calculatorScreenElement.textContent = screenValue;
+        updateScreenValue(screenValue);
     }
 }
 
 const toggleSign = ()=> {
     let operand = Number(screenValue);
     screenValue = (-operand).toString();
-    calculatorScreenElement.textContent = screenValue;
+    updateScreenValue(screenValue);
 }
-
 
 const buttonClick = (event)=> {
     buttonTextContent = event.target.textContent;
