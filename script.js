@@ -99,6 +99,14 @@ const equalButtonClick = ()=> {
     }
 }
 
+const allClearButtonClick = ()=> {
+    screenValue = 0;
+    prevScreenValue = 0;
+    lastOperator = null;
+    calculatorScreenElement.textContent = screenValue;
+    state = "FIRST_OPERAND_REQUESTED";
+}
+
 const buttonClick = (event)=> {
     buttonTextContent = event.target.textContent;
 
@@ -115,7 +123,7 @@ const buttonClick = (event)=> {
         console.log("c");
     }
     else if(buttonTextContent === 'AC') {
-        console.log("ac");
+        allClearButtonClick();
     }
     else if(buttonTextContent === '+/-') {
         console.log("+/-");
